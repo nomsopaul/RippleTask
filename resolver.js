@@ -26,8 +26,6 @@ const resolvers = {
                     throw new Error('User not found.');
                 }
 
-                // const isPasswordValid = await compare(password, user.password);
-
                 if (password!=user.password) {
                     throw new Error('Invalid password.');
                 }
