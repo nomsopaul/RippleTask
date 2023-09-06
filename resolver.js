@@ -16,8 +16,7 @@ const resolvers = {
             await newUser.save();
             return newUser;
         },
-    },
-    Mutation: {
+
         login: async (parent, args) => {
             try {
                 const { email, password } = args;
@@ -27,9 +26,9 @@ const resolvers = {
                     throw new Error('User not found.');
                 }
 
-                const isPasswordValid = await bcrypt.compare(password, user.password);
+                // const isPasswordValid = await compare(password, user.password);
 
-                if (!isPasswordValid) {
+                if (password!=user.password) {
                     throw new Error('Invalid password.');
                 }
                 return user;
@@ -37,6 +36,6 @@ const resolvers = {
                 throw new Error(`Error logging in: ${error.message}`);
             }
         },
-    },
+ },
 };
 module.exports = { resolvers };
