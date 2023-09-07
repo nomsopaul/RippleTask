@@ -2,6 +2,7 @@ const { User } = require("./models/User.js");
 const { ApolloError } = require('apollo-server-errors');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const fs = require('fs');
 let args;
 
 const resolvers = {
@@ -57,19 +58,19 @@ const resolvers = {
             } else {
                 throw new ApolloError('Incorrect password', 'INCORRECT_PASSWORD');
             }
-        }
+        },
+        updatetypeDefs: async (_, { payload }) => {
+            const newtypeDefs = payload;
+
+            fs.writeFileSync("typeDefs.js", newtypeDefs);
+
+            const res = await newtypeDefs.save();
+            
+            return "typeDefs updated successfully";
+
+           
+        },
     },
-    getUsers: async (_, _args, { dataSources: { users } }) => {
-        return users.getUsers();
-    },
-    getUser: async (_, { id }, { dataSources: { users } }) => {
-        return users.getUser(id);
-    },
-    Mutation: {
-        signup: async (_, args, { dataSources: { users } }) => {
-            return users.signup(args)
-        }
-    }
 };
 
 module.exports = { resolvers };
