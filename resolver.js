@@ -1,4 +1,4 @@
-const {User} = require("./models/User.js");
+const { User } = require("./models/User.js");
 const { ApolloError } = require('apollo-server-errors');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -9,16 +9,16 @@ const resolvers = {
         hello: () => "GraphQL is Awesome",
     },
     Mutation: {
-         signup: async(_, args) => {
+        signup: async (_, args) => {
             const { username, email, password } = args;
             const oldUser = await User.findOne({ email });
 
             if (oldUser) {
                 throw new ApolloError('A user is already registered with the email: ' + email, 'USER_ALREADY_EXISTS');
             }
-            
+
             var encryptedPassword = await bcrypt.hash(password, 10);
-            
+
             const newUser = new User({
                 username: username,
                 email: email.toLowerCase(),
@@ -29,27 +29,27 @@ const resolvers = {
                 { user_id: newUser._id, email },
                 "UNSAFESTRING",
                 {
-                  expiresIn: "2h",
+                    expiresIn: "2h",
                 }
             );
 
             newUser.token = token;
 
             const res = await newUser.save();
-            
+
             return newUser;
         },
-        async login(_, args ) {
+        async login(_, args) {
             const { email, password } = args;
             const user = await User.findOne({ email });
 
             if (user && (await bcrypt.compare(password, user.password))) {
                 const token = jwt.sign(
-                  { user_id: user._id, email },
-                  "UNSAFESTRING",
-                  {
-                    expiresIn: "2h",
-                  }
+                    { user_id: user._id, email },
+                    "UNSAFESTRING",
+                    {
+                        expiresIn: "2h",
+                    }
                 );
                 user.token = token;
 
@@ -59,5 +59,17 @@ const resolvers = {
             }
         }
     },
+    getUsers: async (_, _args, { dataSources: { users } }) => {
+        return users.getUsers();
+    },
+    getUser: async (_, { id }, { dataSources: { users } }) => {
+        return users.getUser(id);
+    },
+    Mutation: {
+        signup: async (_, args, { dataSources: { users } }) => {
+            return users.signup(args)
+        }
+    }
 };
+
 module.exports = { resolvers };

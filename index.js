@@ -3,7 +3,8 @@ const {startStandaloneServer} = require('@apollo/server/standalone');
 const mongoose = require('mongoose');
 const { resolvers } = require("./resolver.js");
 const {typeDefs} = require("./models/typeDefs.js");
-
+const {User} = require("./models/User.js");
+const {Users} = require('./src/dataSources/users.js')
 
 const server = new ApolloServer({
     typeDefs,
@@ -25,7 +26,9 @@ mongoose
         console.log(err.message);
     });
 
-
+const dataSources = () => ({
+    users: new User(UserModel),
+});
 
 
 
