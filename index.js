@@ -5,6 +5,12 @@ const { resolvers } = require("./resolver.js");
 const {typeDefs} = require("./models/typeDefs.js");
 
 
+const server = new ApolloServer({
+    typeDefs,
+    resolvers
+});
+
+
 const MONGODB = "mongodb+srv://nomso:Brimaka12@cluster0.aj2kfzf.mongodb.net/"
 
 mongoose
@@ -19,16 +25,16 @@ mongoose
         console.log(err.message);
     });
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers
-});
+
+
+
 
 startStandaloneServer(server, {
     listen: {port: 4000 },
 }).then(({url}) => {
     console.log(`Server ready at ${url}`);
 });
+
 
 
 
