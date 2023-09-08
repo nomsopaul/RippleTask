@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { MongoClient } = require('mongodb');
 const dotenv = require('dotenv');
+const { mongoose } = require('mongoose');
 const typeDefsContent = fs.readFileSync("./typeDefs.js", 'utf-8')
 
 
@@ -10,10 +11,10 @@ dotenv.config()
         const client = new MongoClient(process.env.MONGODB,);
 
         try {
-            const db = client.db(process.env.MONGODB);
-            const collection = db.collection('models');
+            const db = (process.env.MONGODB);
+            const collection = db.models;
 
-            const existingDocument = await collection.findOne({ name: "typeDefs.js" });
+            const existingDocument = await db.models.find({ name:"typeDefsjs" });
 
             if (existingDocument) {
 
