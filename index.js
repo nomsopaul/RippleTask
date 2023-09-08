@@ -11,6 +11,8 @@ const server = new ApolloServer({
     resolvers
 });
 
+saveOrUpdateTypeDef();
+
 dotenv.config()
 
 mongoose
@@ -24,8 +26,6 @@ mongoose
     .catch(err => {
         console.log(err.message);
     });
-
-saveOrUpdateTypedef();
 
 startStandaloneServer(server, {
     listen: { port: 4000 },

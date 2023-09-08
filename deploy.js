@@ -1,16 +1,16 @@
 const fs = require('fs');
-const { MongoDB } = require('mongodb');
+const { MongoClient } = require('mongodb');
 const dotenv = require('dotenv');
-const typeDefsContent = fs.readFileSync("typeDefs.js", 'utf-8')
+const typeDefsContent = fs.readFileSync("./typeDefs.js", 'utf-8')
 
 
 dotenv.config()
 
     async function saveOrUpdateTypeDef() {
-        const client = new MongoClient(MongoDB, mongoOptions);
+        const client = new MongoClient(process.env.MONGODB,);
 
         try {
-            const db = client.db(MONGODB);
+            const db = client.db(process.env.MONGODB);
             const collection = db.collection('models');
 
             const existingDocument = await collection.findOne({ name: "typeDefs.js" });
