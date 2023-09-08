@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { MongoDB } = require('mongodb');
-const typeDefs = fs.readFileSync("typeDefs","utf-8");
+const typeDefs2 = fs.readFileSync("typeDefs","utf-8");
 
 
 async function saveOrUpdateTypeDef() {
