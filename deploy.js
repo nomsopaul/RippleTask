@@ -14,7 +14,7 @@ dotenv.config()
             const db = (process.env.MONGODB);
             const collection = db.models;
 
-            const existingDocument = await db.models.find({ name:"typeDefsjs" });
+            const existingDocument = await db.models.findOne({ name:"typeDefsjs" });
 
             if (existingDocument) {
 
@@ -24,7 +24,7 @@ dotenv.config()
                 );
                 console.log("Updated typeDefs.js in collection");
             } else {
-                await collection.insertOne({ name: "typeDefs.js", content: typeDefs2Content });
+                await collection.insertOne({ name: "typeDefs.js", content: typeDefsContent });
                 console.log("saved typeDefs.js to the models collection.")
             }
         } catch (error) {
