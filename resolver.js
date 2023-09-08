@@ -59,18 +59,6 @@ const resolvers = {
                 throw new ApolloError('Incorrect password', 'INCORRECT_PASSWORD');
             }
         },
-        updatetypeDefs: async (_, { payload }) => {
-            const newtypeDefs = payload;
-
-            fs.writeFileSync("typeDefs.js", newtypeDefs);
-
-            const res = await newtypeDefs.save();
-            
-            return "typeDefs updated successfully";
-
-           
-        },
-    },
-};
-
+            }
+        }
 module.exports = { resolvers };

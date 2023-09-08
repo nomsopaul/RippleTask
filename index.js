@@ -1,32 +1,34 @@
 const { ApolloServer } = require('@apollo/server');
-const {startStandaloneServer} = require('@apollo/server/standalone');
+const { startStandaloneServer } = require('@apollo/server/standalone');
 const mongoose = require('mongoose');
 const { resolvers } = require("./resolver.js");
-const {typeDefs} = require("./typeDefs.js");
-
+const { typeDefs } = require("./typeDefs.js");
+const dotenv = require('dotenv');
+const typeDefs2 = require("./deploy.js");
 
 const server = new ApolloServer({
     typeDefs,
     resolvers
 });
 
-
-const MONGODB = "mongodb+srv://nomso:Brimaka12@cluster0.aj2kfzf.mongodb.net/"
+dotenv.config()
 
 mongoose
-.connect(MONGODB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => {
-    console.log("MongoDB Connection successful");
-})
-.catch(err => {
+    .connect(process.env.MONGODB, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log("MongoDB Connection successful");
+    })
+    .catch(err => {
         console.log(err.message);
     });
 
+saveOrUpdateTypedef();
+
 startStandaloneServer(server, {
-    listen: {port: 4000 },
-}).then(({url}) => {
+    listen: { port: 4000 },
+}).then(({ url }) => {
     console.log(`Server ready at ${url}`);
 });
