@@ -1,12 +1,13 @@
 const fs = require('fs');
 const { MongoDB } = require('mongodb');
-const typeDefs2 = fs.readFileSync("typeDefs","utf-8");
+const typeDefs = require("./typeDefs.js");
+const dotenv = require('dotenv');
 
 
 async function saveOrUpdateTypeDef() {
-    const client = new MongoDB(mongoURL, mongoOptions);
+    const client = new MongoDB(, mongoOptions);
     try{
-        const db = client.db(MongoDB);
+        const db = client.db(MONGODB);
         const collection = db.collection('models');
 
         const existingDocument = await collection.findOne({ name: "typeDefs.js" });
@@ -14,12 +15,12 @@ async function saveOrUpdateTypeDef() {
         if(existingDocument) {
             await collection.updateOne(
                 { name: "typeDefs.js"},
-                { $set: {content: typedefsContent }}
+                { $set: {content: typeDefsContent }}
             );
-            console.log("Updated typedefs.js in collection");
+            console.log("Updated typeDefs.js in collection");
         } else {
-            await collection.insertOne({ name: "typeDefs.js", content: typedefsContent });
-            console.log("saved typedefs.js to the models collection.")
+            await collection.insertOne({ name: "typeDefs.js", content: typeDefsContent });
+            console.log("saved typeDefs.js to the models collection.")
         }
     } catch (error) {
         console.error("Error:", error);
@@ -28,4 +29,4 @@ async function saveOrUpdateTypeDef() {
     }
 };
 
-module.exports = {typeDefs2}
+module.exports = {typeDefs}

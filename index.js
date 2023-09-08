@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { resolvers } = require("./resolver.js");
 const { typeDefs } = require("./typeDefs.js");
 const dotenv = require('dotenv');
-const { typeDefs2 } = require("./deploy.js");
+// const { typeDefs } = require("./deploy.js");
 
 const server = new ApolloServer({
     typeDefs,
@@ -25,7 +25,7 @@ mongoose
         console.log(err.message);
     });
 
-saveOrUpdateTypedef();
+// saveOrUpdateTypedef();
 
 startStandaloneServer(server, {
     listen: { port: 4000 },
